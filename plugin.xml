@@ -52,7 +52,6 @@
 
         <framework src="com.android.support:support-v4:+" />
         <framework src="com.google.android.gms:play-services-gcm:+" />
-        <framework src="com.google.android.gms:play-services-ads:+" />
 
     </platform>
 
