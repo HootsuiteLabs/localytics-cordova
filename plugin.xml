@@ -38,7 +38,7 @@
     <platform name="android">
         <config-file target="config.xml" parent="/*">
             <feature name="LocalyticsPlugin" >
-                <param name="android-package" value="zzz.localytics.phonegap.LocalyticsPlugin"/>
+                <param name="android-package" value="zzz.com.localytics.phonegap.LocalyticsPlugin"/>
             </feature>
         </config-file>
 
