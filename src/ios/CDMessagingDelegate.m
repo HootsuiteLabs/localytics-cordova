@@ -121,9 +121,12 @@
     return configuration;
 }
 
-- (BOOL)localyticsShouldDeeplink {
-    // As of now unimplemented
-    return YES;
+- (void)localyticsDidDisplayInAppMessage {
+    NSDictionary *object = @{@"method": @"localyticsDidDisplayInAppMessage"};
+
+    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:object];
+    [pluginResult setKeepCallbackAsBool:YES];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:self.invokedUrlCommand.callbackId];
 }
 
 - (void)localyticsWillDismissInAppMessage {

@@ -3,15 +3,11 @@ Localytics for PhoneGap/Cordova
 
 ## Version
 
-This version of the PhoneGap/Cordova SDK wraps v5.2.0 of the Localytics Android and v5.2.0 of the Localytics iOS SDKs.
-
-> Cordova SDK 5.2.0 has some drastic changes to the manual integration (Localytics.integrate) workflow for iOS.
-> Push Messaging and Test Mode can begin to fail upon upgrade if the proper workflow is not followed.
-> Please consult the manual integration section to ensure you're app is still behaving appropriately.
+This version of the PhoneGap/Cordova SDK wraps v4.5.1 of the Localytics Android and v4.4.1 of the Localytics iOS SDKs.
 
 ## Supported Versions
 
-The PhoneGap/Cordova SDK was tested on Cordova v8.0.0.
+The PhoneGap/Cordova SDK was tested on Cordova v7.1.0 with Android v6.3.0 and iOS v4.5.4.
 
 ## Installation
 
@@ -21,15 +17,13 @@ cordova plugin add localytics-cordova
 
 ## Integration
 
-To install Localytics for Phonegap, you'll need to take a few basic steps.
+To install Localytics for Phonegap, you'll need to take three basic steps.
 
 1. Set up your app key for each platform.
 
 2. Integrate your app with Localytics.
 
 3. Set up and register for Push notifications, if necessary.
-
-4. Set up and register for Places notifications, if necessary.
 
 
 ### 1. Set up app keys
@@ -54,7 +48,15 @@ Next, follow the steps in [configuring test mode](https://docs.localytics.com/de
 
 #### Android
 
-Download a copy of the [localytics.xml](https://docs.localytics.com/files/localytics.xml) file.  Ensure that the keys are set appropriately, specifically ensure that the value of `ll_app_key` is set to your Localytics app key.  For a full list of localytics.xml keys, please refer to the (documentation)[https://docs.localytics.com/dev/android.html#localytics-xml-keys].
+In AndroidManifest.xml, add the following under \<application\> node:
+
+```xml
+<meta-data
+	android:name="LOCALYTICS_APP_KEY"
+	android:value="YOUR_APP_KEY" />
+```
+
+> Replace YOUR\_APP\_KEY with your Localytics app key.
 
 Next, follow the remaining steps in [modifying AndroidManifest.xml](https://docs.localytics.com/dev/android.html#modify-androidmanifest-android) to configure test mode and install referrals.
 
@@ -123,11 +125,21 @@ Localytics.registerPush();
 
 > registerPush relies on "CDVRemoteNotification", "CDVRemoteNotificationError" and "CDVPluginHandleOpenURLNotification" broadcasted by cordova's AppDelegate.m class. If you change the AppDelegate, ensure to rebroadcast these events from the appropriate handlers to ensure correct behavior. Alternatively, you can also integrate manually through native code instead.
 
-Finally, if you are using manual integration, make sure to follow steps 5 and onwards of the (manual integration guide)[https://docs.localytics.com/dev/ios.html#manual-integration-ios].
-
 #### Android
 
-[Follow these instructions to set up push notifications for your app.](https://docs.localytics.com/dev/android.html#fcm-integration-android)
+[Follow these instructions to set up push notifications for your app.](https://docs.localytics.com/dev/android.html#gcm-integration-android)
+
+Next, [follow these instructions to modify your AndroidManifest.xml](https://docs.localytics.com/dev/android.html#gcm-modify-androidmanifest-push-android).
+
+Finally, inside your \<application\> tag, add:
+
+```xml
+<meta-data
+	android:name="com.localytics.android_push_sender_id"
+	android:value="\ YOUR_PUSH_ID" />
+```
+
+> replace YOUR_PUSH_ID with your GCM sender ID. **The "\\ " before the push id is intentional (ie. android:value="\ 1234567")**.
 
 Afterwards, simply call the following function after the integration code in the previous step.
 
@@ -135,23 +147,6 @@ Afterwards, simply call the following function after the integration code in the
 Localytics.registerPush();
 ```
 
-### 4. Set up and register for Places notifications
-
-#### iOS
-
-[Follow these instructions to add the proper location prompt messages to your Info.plist.](https://docs.localytics.com/dev/ios.html#add-location-always-usage-plist-places-ios)
-
-Next, [ensure you request notification permissions by following these steps.](https://docs.localytics.com/dev/ios.html#register-for-places-notifications-ios).
-
-If you are using manual integration, make sure you handle the opened notification by [following these steps](https://docs.localytics.com/dev/ios.html#handle-places-notification-ios).
-
-> Note: If you already call registerPush() in your app then you won't need to follow the second step to request notification permissions.
-
-#### Android
-
-[Follow steps 1-3 and 5-6 in the places documentatoin](https://docs.localytics.com/dev/android.html#places-android)
-
-Afterwards, simply call `Localytics.setLocationMonitoringEnabled()` after the integration code in the previous steps.
 
 After integrating, tagging events and any further instrumentation should be done inside the web app.
 
@@ -161,12 +156,11 @@ For full method documentation, see [localytics.js](www/localytics.js)
 
 ```javascript
 // Integration
-Localytics.integrate(); // For Android or iOS integrations that uses Info.plist
-Localytics.integrate("YOUR_APP_KEY"); // For iOS integrations that don't use Info.plist (Android will ignore the value)
-Localytics.autoIntegrate(); // For Android or iOS integrations that uses Info.plist
-Localytics.autoIntegrate("YOUR_APP_KEY"); // For iOS integrations that don't use Info.plist (Android will ignore the value)
+Localytics.integrate(); // uses Info.plist or AndroidManifest.xml value
+Localytics.integrate("YOUR_APP_KEY");
+Localytics.autoIntegrate(); // uses Info.plist or AndroidManifest.xml value
+Localytics.autoIntegrate("YOUR_APP_KEY");
 Localytics.upload();
-Localytics.pauseDataUploading(true);
 Localytics.openSession();
 Localytics.closeSession();
 
@@ -176,13 +170,6 @@ Localytics.isOptedOut(
 	function success(result) {
 		var optedOut = result;
 });
-
-Localytics.setPrivacyOptedOut(true);
-Localytics.isPrivacyOptedOut(
-	function success(result) {
-		var privacyOptedOut = result;
-});
-
 Localytics.tagEvent("Team Favorited", {"Team Name": "Celtics"}, 0);
 Localytics.tagPurchased("Shirt", "sku-123", "Apparel", 10, {"Key": "Value"});
 Localytics.tagAddedToCart("Shirt", "sku-123", "Apparel", 10, {"Key": "Value"});
@@ -240,7 +227,6 @@ Localytics.getCustomerId(
 	function success(result) {
 		var customerId = result;
 });
-Localytics.setCustomerIdWithPrivacyOptedOut("3neRKTxbNWYKM4NJ", true);
 Localytics.setLocation(-120.5, 76.12);
 
 // Marketing
@@ -255,6 +241,7 @@ Localytics.areNotificationsDisabled(
 	function success(result) {
 		var disabled = result;
 });  // Android only
+Localytics.setDefaultNotificationChannel("Chat", "Chat messages from friends");  // Android only
 Localytics.setTestModeEnabled(true);
 Localytics.isTestModeEnabled(
 	function success(result) {
@@ -270,22 +257,12 @@ Localytics.getInAppMessageDismissButtonLocation(
 Localytics.triggerInAppMessage("Item Purchased", {"Item Name": "Stickers"});
 Localytics.triggerInAppMessagesForSessionStart();
 Localytics.dismissCurrentInAppMessage();
-Localytics.setInAppAdIdParameterEnabled(false);
+Localytics.setInAppAdIdParameterEnabled(false); // iOS only
 Localytics.isInAppAdIdParameterEnabled(
 	function success(result) {
 		var enabled = result;
-});
-Localytics.setInboxAdIdParameterEnabled(false);
-Localytics.isInboxAdIdParameterEnabled(
-	function success(result) {
-		var enabled = result;
-});
-//Deprecated in 5.2 in favor of getDisplayableInboxCampaigns
+}); // iOS only
 Localytics.getInboxCampaigns(
-	function success(result) {
-		var campaigns = result;
-});
-Localytics.getDisplayableInboxCampaigns(
 	function success(result) {
 		var campaigns = result;
 });
@@ -302,7 +279,6 @@ Localytics.refreshAllInboxCampaigns(
 		var campaigns = result;
 });
 Localytics.setInboxCampaignRead(72613, true);
-Localytics.deleteInboxCampaign(72613);
 Localytics.getInboxCampaignsUnreadCount(
 	function success(result) {
 		var count = result;
@@ -316,8 +292,8 @@ Localytics.getGeofencesToMonitor(-120.72, 76.85,
 	function success(result) {
 		var geofences = result;
 });
-Localytics.triggerRegion({"uniqueId" : "office"}, "enter", -120.72, 76.85);
-Localytics.triggerRegions([{"uniqueId" : "office"}, {"uniqueId" : "home"}], "exit", -120.72, 76.85);
+Localytics.triggerRegion({"uniqueId" : "office"}, "enter");
+Localytics.triggerRegions([{"uniqueId" : "office"}, {"uniqueId" : "home"}], "exit");
 
 // Developer Options
 Localytics.setLoggingEnabled(true);
@@ -327,7 +303,7 @@ Localytics.isLoggingEnabled(
 });
 Localytics.setOptions({"session_timeout": 30});
 Localytics.setOption("session_timeout", 20);
-Localytics.redirectLogsToDisk(true); //Parameter is Android only
+Localytics.redirectLogsToDisk(true); // Android only
 Localytics.getInstallId(
 	function success(result) {
 		var id = result;
@@ -382,21 +358,6 @@ Localytics.setLocationListener(
 		// - {"method": "localyticsDidTriggerRegions", "params": {"regions": [...], "event": "enter"}}
 });
 Localytics.removeLocationListener();
-// Location
-Localytics.setCallToActionListener(
-	function success(result) {
-		// result can be one of:
-		// - {"method": "localyticsShouldDeeplink", "params": {"url": "http://www.google.com", "campaign": {"name": "Campaign Name", ...}}}
-		// - {"method": "localyticsDidOptOut", "params": {"optedOut": true/false, "campaign": {"name": "Campaign Name", ...}
-		// - {"method": "localyticsDidPrivacyOptOut", "params": {"privacyOptedOut": true/false, "campaign": {"name": "Campaign Name", ...}
-		//Android Only
-		// - {"method": "localyticsShouldPromptForLocationPermissions", "params": {"campaign": {"name": "Campaign Name", ...}
-		//iOS Only
-		// - {"method": "localyticsShouldPromptForLocationWhenInUsePermissions", "params": {"campaign": {"name": "Campaign Name", ...}
-		// - {"method": "localyticsShouldPromptForLocationAlwaysPermissions", "params": {"campaign": {"name": "Campaign Name", ...}
-		// - {"method": "localyticsShouldPromptForNotificationPermissions", "params": {"campaign": {"name": "Campaign Name", ...}
-});
-Localytics.removeCallToActionListener();
 ```
 
 ### Messaging Configuration

@@ -112,9 +112,8 @@ public class CDMessagingListener implements com.localytics.android.MessagingList
     }
 
     @Override
-    public boolean localyticsShouldDeeplink(String deeplink) {
-      //As of now unimplemented.
-      return true;
+    public void localyticsWillDisplayInAppMessage() {
+        // Not called for MessagingListenerV2
     }
 
     @Override

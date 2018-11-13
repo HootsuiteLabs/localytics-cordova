@@ -1,17 +1,27 @@
 {
   "name": "localytics-cordova",
-  "version": "6.0.0",
   "description": "Localytics Plugin for Cordova/PhoneGap",
-  "cordova": {
-    "id": "zzz.com.localytics.phonegap.LocalyticsPlugin",
-    "platforms": [
-      "ios",
-      "android"
-    ]
+  "version": "4.5.1",
+  "author": {
+    "name": "Localytics"
   },
+  "homepage": "https://www.localytics.com/",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/localytics/localytics-cordova.git"
+  },
+  "bugs": {
+    "url": "https://github.com/localytics/localytics-cordova/issues"
+  },
+  "engines": [
+    {
+      "name": "cordova",
+      "version": ">=3.0.0"
+    }
+  ],
+  "dist": {
+    "tarball": "https://artifactory.hootops.com:443/artifactory/api/npm/hootsuite-npm/localytics-cordova/-/localytics-cordova-4.5.1.tgz",
+    "shasum": "b000433322ca8c520080bee69b521b05a11126d1"
   },
   "keywords": [
     "localytics",
@@ -21,16 +31,35 @@
     "analytics",
     "push messaging"
   ],
-  "engines": [
+  "license": "SEE LICENSE IN 'LICENSE' file",
+  "maintainers": [
     {
-      "name": "cordova",
-      "version": ">=3.0.0"
+      "name": "johnny_appleseed",
+      "email": "apple@localytics.com"
     }
   ],
-  "author": "Localytics",
-  "license": "SEE LICENSE IN 'LICENSE' file",
-  "bugs": {
-    "url": "https://github.com/localytics/localytics-cordova/issues"
+  "directories": {},
+  "_npmVersion": "5.5.1",
+  "_npmUser": {
+    "name": "johnny_appleseed",
+    "email": "apple@localytics.com"
   },
-  "homepage": "https://www.localytics.com/"
+  "_id": "localytics-cordova@4.5.1",
+  "gitHead": "4739b1171f39192f464857d34b0da519754e8716",
+  "cordova": {
+    "id": "zzz.com.localytics.phonegap.LocalyticsPlugin",
+    "platforms": [
+      "ios",
+      "android"
+    ]
+  },
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/localytics-cordova-4.5.1.tgz_1515981989545_0.9448587838560343"
+  },
+  "_nodeVersion": "6.10.3",
+  "_shasum": "b000433322ca8c520080bee69b521b05a11126d1",
+  "_resolved": "https://artifactory.hootops.com:443/artifactory/api/npm/hootsuite-npm/localytics-cordova/-/localytics-cordova-4.5.1.tgz",
+  "_from": "localytics-cordova@4.5.1",
+  "readme": "ERROR: No README data found!"
 }

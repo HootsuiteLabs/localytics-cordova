@@ -10,7 +10,6 @@
 @class LLGeofence;
 @class LLInAppCampaign;
 @class LLPlacesCampaign;
-@class LLInboxCampaign;
 
 typedef NS_ENUM(NSUInteger, LLInAppMessageDismissButtonLocation);
 
@@ -21,12 +20,9 @@ typedef NS_ENUM(NSUInteger, LLInAppMessageDismissButtonLocation);
 - (void)openSession:(CDVInvokedUrlCommand *)command;
 - (void)closeSession:(CDVInvokedUrlCommand *)command;
 - (void)upload:(CDVInvokedUrlCommand *)command;
-- (void)pauseDataUploading:(CDVInvokedUrlCommand *)command;
 
 - (void)setOptedOut:(CDVInvokedUrlCommand *)command;
 - (void)isOptedOut:(CDVInvokedUrlCommand *)command;
-- (void)setPrivacyOptedOut:(CDVInvokedUrlCommand *)command;
-- (void)isPrivacyOptedOut:(CDVInvokedUrlCommand *)command;
 - (void)tagEvent:(CDVInvokedUrlCommand *)command;
 - (void)tagPurchased:(CDVInvokedUrlCommand *)command;
 - (void)tagAddedToCart:(CDVInvokedUrlCommand *)command;
@@ -65,7 +61,6 @@ typedef NS_ENUM(NSUInteger, LLInAppMessageDismissButtonLocation);
 - (void)setIdentifier:(CDVInvokedUrlCommand *)command;
 - (void)getIdentifier:(CDVInvokedUrlCommand *)command;
 - (void)setCustomerId:(CDVInvokedUrlCommand *)command;
-- (void)setCustomerIdWithPrivacyOptedOut:(CDVInvokedUrlCommand *)command;
 - (void)getCustomerId:(CDVInvokedUrlCommand *)command;
 - (void)setLocation:(CDVInvokedUrlCommand *)command;
 
@@ -74,6 +69,7 @@ typedef NS_ENUM(NSUInteger, LLInAppMessageDismissButtonLocation);
 - (void)getPushToken:(CDVInvokedUrlCommand *)command;
 - (void)setNotificationsDisabled:(CDVInvokedUrlCommand *)command;
 - (void)areNotificationsDisabled:(CDVInvokedUrlCommand *)command;
+- (void)setDefaultNotificationChannel:(CDVInvokedUrlCommand *)command;
 - (void)setPushMessageConfiguration:(CDVInvokedUrlCommand *)command;
 - (void)setTestModeEnabled:(CDVInvokedUrlCommand *)command;
 - (void)isTestModeEnabled:(CDVInvokedUrlCommand *)command;
@@ -87,15 +83,11 @@ typedef NS_ENUM(NSUInteger, LLInAppMessageDismissButtonLocation);
 - (void)setInAppMessageConfiguration:(CDVInvokedUrlCommand *)command;
 - (void)isInAppAdIdParameterEnabled:(CDVInvokedUrlCommand *)command;
 - (void)setInAppAdIdParameterEnabled:(CDVInvokedUrlCommand *)command;
-- (void)isInboxAdIdParameterEnabled:(CDVInvokedUrlCommand *)command;
-- (void)setInboxAdIdParameterEnabled:(CDVInvokedUrlCommand *)command;
 - (void)getInboxCampaigns:(CDVInvokedUrlCommand *)command;
-- (void)getDisplayableInboxCampaigns:(CDVInvokedUrlCommand *)command;
 - (void)getAllInboxCampaigns:(CDVInvokedUrlCommand *)command;
 - (void)refreshInboxCampaigns:(CDVInvokedUrlCommand *)command;
 - (void)refreshAllInboxCampaigns:(CDVInvokedUrlCommand *)command;
 - (void)setInboxCampaignRead:(CDVInvokedUrlCommand *)command;
-- (void)deleteInboxCampaign:(CDVInvokedUrlCommand *)command;
 - (void)getInboxCampaignsUnreadCount:(CDVInvokedUrlCommand *)command;
 - (void)inboxListItemTapped:(CDVInvokedUrlCommand *)command;
 - (void)triggerPlacesNotification:(CDVInvokedUrlCommand *)command;
@@ -109,8 +101,6 @@ typedef NS_ENUM(NSUInteger, LLInAppMessageDismissButtonLocation);
 - (void)triggerRegions:(CDVInvokedUrlCommand *)command;
 - (void)setLocationListener:(CDVInvokedUrlCommand *)command;
 - (void)removeLocationListener:(CDVInvokedUrlCommand *)command;
-- (void)setCallToActionListener:(CDVInvokedUrlCommand *)command;
-- (void)removeCallToActionListener:(CDVInvokedUrlCommand *)command;
 
 - (void)setLoggingEnabled:(CDVInvokedUrlCommand *)command;
 - (void)isLoggingEnabled:(CDVInvokedUrlCommand *)command;
@@ -124,7 +114,6 @@ typedef NS_ENUM(NSUInteger, LLInAppMessageDismissButtonLocation);
 + (NSArray<NSDictionary<NSString *, NSObject *> *> *)dictionaryArrayFromRegions:(NSArray<LLRegion *> *)regions;
 + (NSDictionary<NSString *, NSObject *> *)dictionaryFromGeofence:(LLGeofence *)geofence;
 + (NSDictionary<NSString *, NSObject *> *)dictionaryFromInAppCampaign:(LLInAppCampaign *)campaign;
-+ (NSDictionary<NSString *, NSObject *> *)dictionaryFromInboxCampaign:(LLInboxCampaign *)campaign;
 + (NSDictionary<NSString *, NSObject *> *)dictionaryFromPlacesCampaign:(LLPlacesCampaign *)campaign;
 + (LLInAppMessageDismissButtonLocation)locationFrom:(NSString *)location;
 
